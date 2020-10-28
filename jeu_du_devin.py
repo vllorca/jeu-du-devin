@@ -80,11 +80,13 @@ R0 : Faire deviner un nombre à la machine
 R1 : Comment faire deviner un nombre :
     - Demander à l'utilisateur de choisir un nombre
             solution : inout
-    - Trouver ce nombre
+    - Deviner ce nombre
             solution : in
-            nbe : out
+            nbe_shoisi : out
+            nb_essai : out
     - Recevoir les félicitations
-            nbe : in
+            proposition : in
+            nb_essai : in
 
 R2 : Comment "Trouver ce nombre"
     - nb essai = 0
@@ -108,7 +110,7 @@ def jeu_devin_machine():
         - La machine doit le trouver
     '''
 
-    i = 0                   # nombre d'essai
+    i = 1                   # nombre d'essai
     a = rand_inf            # borne min
     b = rand_sup            # borne max
     m = (a + b) // 2        # median pour la dichotomie
@@ -139,7 +141,7 @@ def jeu_devin_machine():
         else :                                                          # Réponse non valide
             print("Je n'ai pas compris la réponse")
         i += 1                                                              # incrémente le nombre d'essai
-s
+
     if ans_user != '0' and bool_triche == False :                       # Sans triche et abandon 
         print(f'Bravo ! Le nombre {m} a été trouvé en {i} essais!')
     elif bool_triche == True :                                          # Si l'utilisateur triche
@@ -155,13 +157,19 @@ s
 R0 : Choisir un mode de jeu et continuer de jouer
 
 R1 : Comment "Choisir un mode de jeu et continuer de jouer" ? 
-        - Demander à l'utilisateur le mode voulu
-                mode : inout
-        - Lancer le mode de jeu correspondant
-                mode : in
-                game_mod : out
-        - Demander si l'utilisateur veut rejouer
-                next_game = in
+        - Répéter tant que choix != QUIT
+            - Afficher menu
+                    mode : inout
+            - Demander le choix
+                    mode : in
+                    game_mod : out
+            - Proposer de rejoeur
+                    next_game = in
+
+R2 : Comment "Afficher le menu" ?
+        - print("1 - L'ordinateur choisi le nombre et vous le devinez")
+        - print("2 - Vous choisissez un nombre et l'ordinateur devine")*
+        - print("0 - Quitter")
 '''
 
 def jeu_devin():
